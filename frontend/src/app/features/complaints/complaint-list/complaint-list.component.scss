@@ -1,0 +1,23 @@
+.filters {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filters .form-field {
+  margin-bottom: 0;
+  min-width: 180px;
+}
+
+.search-field {
+  flex: 1;
+  min-width: 240px;
+}
+
+.empty-state {
+  color: var(--color-text-muted);
+  padding: 20px 0;
+  text-align: center;
+}

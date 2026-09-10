@@ -1,0 +1,51 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: janshikayat-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: janshikayat
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - janshikayat_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend/JanShikayat.Api
+      dockerfile: Dockerfile
+    container_name: janshikayat-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=janshikayat;Username=postgres;Password=postgres"
+      Jwt__Key: "CHANGE_THIS_TO_A_LONG_RANDOM_SECRET_KEY_AT_LEAST_32_CHARS"
+      Cors__AllowedOrigins__0: "http://localhost:4200"
+      ASPNETCORE_URLS: "http://+:8080"
+    ports:
+      - "5080:8080"
+
+  frontend:
+    build:
+      context: ./frontend/jan-shikayat-ui
+      dockerfile: Dockerfile
+    container_name: janshikayat-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "4200:80"
+
+volumes:
+  janshikayat_pgdata:

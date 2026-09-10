@@ -1,0 +1,24 @@
+# .NET
+backend/**/bin/
+backend/**/obj/
+*.user
+
+# Angular / Node
+frontend/**/node_modules/
+frontend/**/dist/
+frontend/**/.angular/
+
+# Logs / OS
+*.log
+.DS_Store
+
+# Uploaded complaint documents (created at runtime)
+backend/**/uploads/
+
+# Environments
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/

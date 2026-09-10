@@ -1,0 +1,49 @@
+<div class="page-header">
+  <h1>User Management</h1>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="card form-narrow">
+  <div class="form-field">
+    <label>Full Name *</label>
+    <input type="text" formControlName="fullName" />
+  </div>
+  <div class="form-field">
+    <label>Designation</label>
+    <input type="text" formControlName="designation" placeholder="e.g. SDO Patna Sadar" />
+  </div>
+  <div class="form-field">
+    <label>Email *</label>
+    <input type="email" formControlName="email" />
+  </div>
+  <div class="form-field">
+    <label>Temporary Password *</label>
+    <input type="password" formControlName="password" />
+  </div>
+  <div class="form-field">
+    <label>Role *</label>
+    <select formControlName="role">
+      <option *ngFor="let r of roles" [value]="r.value">{{ r.label }}</option>
+    </select>
+  </div>
+  <div class="form-field" *ngIf="form.value.role === 'BranchOfficer'">
+    <label>Branch (1 of 42)</label>
+    <select formControlName="branchId">
+      <option [ngValue]="null">Select branch</option>
+      <option *ngFor="let b of branches" [ngValue]="b.id">{{ b.code }} — {{ b.name }}</option>
+    </select>
+  </div>
+  <div class="form-field" *ngIf="form.value.role === 'DepartmentHead'">
+    <label>Department</label>
+    <select formControlName="departmentId">
+      <option [ngValue]="null">Select department</option>
+      <option *ngFor="let d of departments" [ngValue]="d.id">{{ d.name }}</option>
+    </select>
+  </div>
+
+  <p class="error-text" *ngIf="errorMessage">{{ errorMessage }}</p>
+  <p class="success-text" *ngIf="message">{{ message }}</p>
+
+  <button type="submit" class="btn btn-primary" [disabled]="submitting">
+    {{ submitting ? 'Creating…' : 'Create Account' }}
+  </button>
+</form>

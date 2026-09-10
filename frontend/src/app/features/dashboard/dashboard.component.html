@@ -1,0 +1,38 @@
+<div class="page-header">
+  <h1>Dashboard</h1>
+  <a *ngIf="canRegisterComplaint" routerLink="/complaints/new" class="btn btn-primary">+ Register Complaint</a>
+</div>
+
+<p *ngIf="loading">Loading summary…</p>
+
+<div class="summary-grid" *ngIf="summary">
+  <div class="card summary-card">
+    <span class="summary-value">{{ summary.totalComplaints }}</span>
+    <span class="summary-label">Total Complaints</span>
+  </div>
+  <div class="card summary-card status-Pending">
+    <span class="summary-value">{{ summary.pending }}</span>
+    <span class="summary-label">Pending</span>
+  </div>
+  <div class="card summary-card status-UnderReview">
+    <span class="summary-value">{{ summary.underReview }}</span>
+    <span class="summary-label">Under Review</span>
+  </div>
+  <div class="card summary-card status-ForwardedToDepartment">
+    <span class="summary-value">{{ summary.forwarded }}</span>
+    <span class="summary-label">Forwarded to Dept.</span>
+  </div>
+  <div class="card summary-card status-ForwardedForFieldEnquiry">
+    <span class="summary-value">{{ summary.underFieldEnquiry }}</span>
+    <span class="summary-label">Under Field Enquiry</span>
+  </div>
+  <div class="card summary-card status-Disposed">
+    <span class="summary-value">{{ summary.disposed }}</span>
+    <span class="summary-label">Disposed</span>
+  </div>
+</div>
+
+<div class="card quick-links">
+  <h2>Quick links</h2>
+  <a routerLink="/complaints">View all complaints →</a>
+</div>

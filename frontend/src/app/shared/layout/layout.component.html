@@ -1,0 +1,27 @@
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-title">जन शिकायत पोर्टल</span>
+      <span class="brand-sub">Jan Shikayat &middot; Home Department, Bihar</span>
+    </div>
+
+    <nav class="nav-links">
+      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/complaints" routerLinkActive="active">Complaints</a>
+      <a *ngIf="canRegisterComplaint" routerLink="/complaints/new" routerLinkActive="active">New Complaint</a>
+      <a *ngIf="canManageUsers" routerLink="/admin/users" routerLinkActive="active">User Management</a>
+    </nav>
+
+    <div class="user-box" *ngIf="auth.currentUser() as user">
+      <div class="user-meta">
+        <span class="user-name">{{ user.fullName }}</span>
+        <span class="user-role">{{ user.role }}</span>
+      </div>
+      <button class="logout-btn" (click)="logout()">Log out</button>
+    </div>
+  </header>
+
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

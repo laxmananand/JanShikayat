@@ -1,0 +1,29 @@
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-left: 4px solid var(--color-primary);
+}
+
+.summary-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-primary-dark);
+}
+
+.summary-label {
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.quick-links h2 {
+  margin: 0 0 10px;
+  font-size: 16px;
+}

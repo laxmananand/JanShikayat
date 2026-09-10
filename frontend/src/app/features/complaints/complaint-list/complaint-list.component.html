@@ -1,0 +1,48 @@
+<div class="page-header">
+  <h1>Complaints</h1>
+</div>
+
+<div class="filters card">
+  <div class="form-field">
+    <label>Status</label>
+    <select [(ngModel)]="statusFilter" (change)="load()">
+      <option *ngFor="let s of statuses" [value]="s.value">{{ s.label }}</option>
+    </select>
+  </div>
+  <div class="form-field search-field">
+    <label>Search</label>
+    <input type="text" [(ngModel)]="searchTerm" placeholder="Complaint no., applicant, subject…" (keyup.enter)="load()" />
+  </div>
+  <button class="btn btn-outline" (click)="load()">Search</button>
+</div>
+
+<p *ngIf="loading">Loading complaints…</p>
+
+<div class="card" *ngIf="!loading">
+  <table class="data-table" *ngIf="complaints.length">
+    <thead>
+      <tr>
+        <th>Complaint No.</th>
+        <th>Applicant</th>
+        <th>Subject</th>
+        <th>Date</th>
+        <th>Branch</th>
+        <th>Department</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let c of complaints" (click)="openComplaint(c.id)">
+        <td>{{ c.complaintNumber }}</td>
+        <td>{{ c.applicantName }}</td>
+        <td>{{ c.subject }}</td>
+        <td>{{ c.complaintDate | date: 'dd-MM-yyyy' }}</td>
+        <td>{{ c.branchName }}</td>
+        <td>{{ c.departmentName || '—' }}</td>
+        <td><span class="status-badge" [ngClass]="'status-' + c.status">{{ c.status }}</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!complaints.length" class="empty-state">No complaints found for the selected filters.</p>
+</div>
