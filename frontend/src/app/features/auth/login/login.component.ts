@@ -23,12 +23,17 @@ export class LoginComponent {
 
   loading = false;
   errorMessage = '';
+  showPassword = false;
+
+  togglePassword(): void {
+    this.showPassword = !this.showPassword;
+  }
 
   demoAccounts = [
     { role: 'Super Admin', email: 'admin@janshikayat.gov.in', password: 'Admin@12345' },
-    { role: 'Branch Officer', email: 'branchofficer1@janshikayat.gov.in', password: 'Branch@12345' },
-    { role: 'Department Head', email: 'homedept.head@janshikayat.gov.in', password: 'Dept@12345' },
-    { role: 'Competent Authority (SDO)', email: 'sdo1@janshikayat.gov.in', password: 'Authority@12345' }
+    { role: 'Branch Officer', email: 'branchofficer1@janshikayat.gov.in', password: 'Admin@12345' },
+    { role: 'Department Head', email: 'homedept.head@janshikayat.gov.in', password: 'AdminAdmin@12345' },
+    { role: 'Competent Authority (SDO)', email: 'sdo1@janshikayat.gov.in', password: 'Admin@12345' }
   ];
 
   fillDemo(email: string, password: string): void {

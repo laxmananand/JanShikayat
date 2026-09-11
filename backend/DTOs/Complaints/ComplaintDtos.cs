@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using JanShikayat.Api.Models.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace JanShikayat.Api.DTOs.Complaints
 {
@@ -132,5 +133,16 @@ namespace JanShikayat.Api.DTOs.Complaints
     {
         [Required, MaxLength(1000)]
         public string ClosureRemarks { get; set; } = string.Empty;
+    }
+
+    /// <summary>Request model for the document upload endpoint (multipart/form-data).</summary>
+    public class UploadDocumentRequest
+    {
+        /// <summary>The PDF or image file to attach to the complaint.</summary>
+        [Required]
+        public IFormFile File { get; set; } = null!;
+
+        /// <summary>Category label for the document, e.g. "Complaint", "EnquiryReport".</summary>
+        public string? DocumentType { get; set; }
     }
 }

@@ -174,23 +174,24 @@ namespace JanShikayat.Api.Controllers
 
         [HttpPost("{id:int}/documents")]
         [RequestSizeLimit(20_000_000)]
-        public async Task<IActionResult> UploadDocument(int id, [FromForm] IFormFile file, [FromForm] string documentType = "Complaint")
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UploadDocument(int id, [FromForm] UploadDocumentRequest request)
         {
             var complaint = await _db.Complaints.FindAsync(id);
             if (complaint == null) return NotFound();
 
-            if (file == null || file.Length == 0)
+            if (request.File == null || request.File.Length == 0)
                 return BadRequest(new { message = "No file uploaded." });
 
             try
             {
-                var (storagePath, size) = await _fileStorage.SaveAsync(file, id);
+                var (storagePath, size) = await _fileStorage.SaveAsync(request.File, id);
                 var doc = new ComplaintDocument
                 {
                     ComplaintId = id,
-                    FileName = file.FileName,
+                    FileName = request.File.FileName,
                     StoragePath = storagePath,
-                    DocumentType = documentType,
+                    DocumentType = request.DocumentType ?? "Complaint",
                     FileSizeBytes = size,
                     UploadedByUserId = CurrentUserId
                 };
