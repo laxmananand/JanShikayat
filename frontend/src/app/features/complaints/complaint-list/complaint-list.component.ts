@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ComplaintService } from '../../../core/services/complaint.service';
 import { ComplaintListItem } from '../../../core/models/models';
 
@@ -28,10 +28,20 @@ export class ComplaintListComponent implements OnInit {
     { value: 'Disposed', label: 'Disposed' }
   ];
 
-  constructor(private complaintService: ComplaintService, private router: Router) {}
+  constructor(
+    private complaintService: ComplaintService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.load();
+    // Read status query param from URL (set when clicking dashboard cards)
+    this.route.queryParams.subscribe(params => {
+      if (params['status']) {
+        this.statusFilter = params['status'];
+      }
+      this.load();
+    });
   }
 
   load(): void {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ComplaintService } from '../../core/services/complaint.service';
 import { AuthService } from '../../core/services/auth.service';
 import { DashboardSummary } from '../../core/models/models';
@@ -16,7 +16,11 @@ export class DashboardComponent implements OnInit {
   summary: DashboardSummary | null = null;
   loading = true;
 
-  constructor(private complaintService: ComplaintService, public auth: AuthService) {}
+  constructor(
+    private complaintService: ComplaintService,
+    public auth: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.complaintService.dashboardSummary().subscribe({
@@ -30,5 +34,13 @@ export class DashboardComponent implements OnInit {
 
   get canRegisterComplaint(): boolean {
     return this.auth.hasRole('BranchOfficer', 'SuperAdmin');
+  }
+
+  navigateToComplaints(status?: string): void {
+    if (status) {
+      this.router.navigate(['/complaints'], { queryParams: { status } });
+    } else {
+      this.router.navigate(['/complaints']);
+    }
   }
 }

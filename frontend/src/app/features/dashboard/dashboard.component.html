@@ -1,38 +1,100 @@
 <div class="page-header">
   <h1>Dashboard</h1>
-  <a *ngIf="canRegisterComplaint" routerLink="/complaints/new" class="btn btn-primary">+ Register Complaint</a>
+  <a *ngIf="canRegisterComplaint" routerLink="/complaints/new" class="btn btn-primary">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+      <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+    </svg>
+    Register Complaint
+  </a>
 </div>
 
-<p *ngIf="loading">Loading summary…</p>
+<!-- Loading Skeleton -->
+<div class="summary-grid" *ngIf="loading">
+  <div class="card summary-card skeleton" *ngFor="let i of [1,2,3,4,5,6]">
+    <div class="skeleton-line wide"></div>
+    <div class="skeleton-line narrow"></div>
+  </div>
+</div>
 
+<!-- Summary Cards -->
 <div class="summary-grid" *ngIf="summary">
-  <div class="card summary-card">
-    <span class="summary-value">{{ summary.totalComplaints }}</span>
-    <span class="summary-label">Total Complaints</span>
+  <div class="card summary-card card-total" (click)="navigateToComplaints()">
+    <div class="card-icon-wrap total">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+      </svg>
+    </div>
+    <div class="card-data">
+      <span class="summary-value">{{ summary.totalComplaints }}</span>
+      <span class="summary-label">Total Complaints</span>
+    </div>
+    <span class="card-arrow">→</span>
   </div>
-  <div class="card summary-card status-Pending">
-    <span class="summary-value">{{ summary.pending }}</span>
-    <span class="summary-label">Pending</span>
-  </div>
-  <div class="card summary-card status-UnderReview">
-    <span class="summary-value">{{ summary.underReview }}</span>
-    <span class="summary-label">Under Review</span>
-  </div>
-  <div class="card summary-card status-ForwardedToDepartment">
-    <span class="summary-value">{{ summary.forwarded }}</span>
-    <span class="summary-label">Forwarded to Dept.</span>
-  </div>
-  <div class="card summary-card status-ForwardedForFieldEnquiry">
-    <span class="summary-value">{{ summary.underFieldEnquiry }}</span>
-    <span class="summary-label">Under Field Enquiry</span>
-  </div>
-  <div class="card summary-card status-Disposed">
-    <span class="summary-value">{{ summary.disposed }}</span>
-    <span class="summary-label">Disposed</span>
-  </div>
-</div>
 
-<div class="card quick-links">
-  <h2>Quick links</h2>
-  <a routerLink="/complaints">View all complaints →</a>
+  <div class="card summary-card card-pending" (click)="navigateToComplaints('Pending')">
+    <div class="card-icon-wrap pending">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+    </div>
+    <div class="card-data">
+      <span class="summary-value">{{ summary.pending }}</span>
+      <span class="summary-label">Pending</span>
+    </div>
+    <span class="card-arrow">→</span>
+  </div>
+
+  <div class="card summary-card card-review" (click)="navigateToComplaints('UnderReview')">
+    <div class="card-icon-wrap review">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+    </div>
+    <div class="card-data">
+      <span class="summary-value">{{ summary.underReview }}</span>
+      <span class="summary-label">Under Review</span>
+    </div>
+    <span class="card-arrow">→</span>
+  </div>
+
+  <div class="card summary-card card-forwarded" (click)="navigateToComplaints('ForwardedToDepartment')">
+    <div class="card-icon-wrap forwarded">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+      </svg>
+    </div>
+    <div class="card-data">
+      <span class="summary-value">{{ summary.forwarded }}</span>
+      <span class="summary-label">Forwarded to Dept.</span>
+    </div>
+    <span class="card-arrow">→</span>
+  </div>
+
+  <div class="card summary-card card-enquiry" (click)="navigateToComplaints('ForwardedForFieldEnquiry')">
+    <div class="card-icon-wrap enquiry">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+      </svg>
+    </div>
+    <div class="card-data">
+      <span class="summary-value">{{ summary.underFieldEnquiry }}</span>
+      <span class="summary-label">Under Field Enquiry</span>
+    </div>
+    <span class="card-arrow">→</span>
+  </div>
+
+  <div class="card summary-card card-disposed" (click)="navigateToComplaints('Disposed')">
+    <div class="card-icon-wrap disposed">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+    </div>
+    <div class="card-data">
+      <span class="summary-value">{{ summary.disposed }}</span>
+      <span class="summary-label">Disposed</span>
+    </div>
+    <span class="card-arrow">→</span>
+  </div>
 </div>
