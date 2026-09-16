@@ -95,6 +95,22 @@
   font-size: 12px;
 }
 
+.btn-accent,
+.btn-accent:hover,
+.btn-accent:focus,
+.btn-accent:active,
+.btn-accent:visited {
+  color: #fff;
+}
+.btn-accent {
+  background: var(--color-accent);
+}
+.btn-accent:hover {
+  background: var(--color-accent-light);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
 .upload-row {
   border-top: 1px solid var(--color-border);
   padding-top: 12px;

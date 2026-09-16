@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { roleLabel } from '../../core/utils/labels';
 
 @Component({
   selector: 'app-layout',
@@ -16,6 +17,8 @@ export class LayoutComponent {
   userMenuOpen = false;
 
   constructor(public auth: AuthService, private router: Router) {}
+
+  roleLabel = roleLabel;
 
   toggleSidebar(): void {
     if (window.innerWidth <= 768) {

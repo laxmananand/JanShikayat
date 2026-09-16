@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ComplaintService } from '../../../core/services/complaint.service';
 import { ComplaintListItem } from '../../../core/models/models';
+import { statusLabel } from '../../../core/utils/labels';
 
 @Component({
   selector: 'app-complaint-list',
@@ -19,14 +20,16 @@ export class ComplaintListComponent implements OnInit {
   searchTerm = '';
 
   statuses = [
-    { value: '', label: 'All statuses' },
-    { value: 'Pending', label: 'Pending' },
-    { value: 'UnderReview', label: 'Under Review' },
-    { value: 'ForwardedToDepartment', label: 'Forwarded to Department' },
-    { value: 'ForwardedForFieldEnquiry', label: 'Forwarded for Field Enquiry' },
-    { value: 'ActionTaken', label: 'Action Taken' },
-    { value: 'Disposed', label: 'Disposed' }
+    { value: '', label: 'सभी स्थितियां' },
+    { value: 'Pending', label: 'लंबित' },
+    { value: 'UnderReview', label: 'समीक्षाधीन' },
+    { value: 'ForwardedToDepartment', label: 'विभाग को अग्रेषित' },
+    { value: 'ForwardedForFieldEnquiry', label: 'क्षेत्रीय जांच हेतु अग्रेषित' },
+    { value: 'ActionTaken', label: 'कार्रवाई की गई' },
+    { value: 'Disposed', label: 'निष्पादित' }
   ];
+
+  statusLabel = statusLabel;
 
   constructor(
     private complaintService: ComplaintService,

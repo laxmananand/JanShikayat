@@ -6,6 +6,7 @@ import { ComplaintService } from '../../../core/services/complaint.service';
 import { LookupService } from '../../../core/services/lookup.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { Branch, Department } from '../../../core/models/models';
+import { sourceLabel } from '../../../core/utils/labels';
 
 @Component({
   selector: 'app-complaint-entry',
@@ -28,6 +29,7 @@ export class ComplaintEntryComponent implements OnInit {
   selectedFile: File | null = null;
 
   sources = ['Offline', 'CPGRAMS', 'CMJaibodha', 'PMOGrievancePortal', 'Other'];
+  sourceLabel = sourceLabel;
 
   form = this.fb.group({
     applicantName: ['', Validators.required],
@@ -66,7 +68,7 @@ export class ComplaintEntryComponent implements OnInit {
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
       if (file.type !== 'application/pdf') {
-        this.errorMessage = 'Only PDF files can be attached.';
+        this.errorMessage = 'केवल पीडीएफ फ़ाइलें ही संलग्न की जा सकती हैं।';
         this.selectedFile = null;
         return;
       }
@@ -119,7 +121,7 @@ export class ComplaintEntryComponent implements OnInit {
         },
         error: () => {
           this.submitting = false;
-          this.errorMessage = 'Could not register the complaint. Please check the form and try again.';
+          this.errorMessage = 'शिकायत दर्ज नहीं हो सकी। कृपया फ़ॉर्म जांचें और पुनः प्रयास करें।';
         }
       });
   }

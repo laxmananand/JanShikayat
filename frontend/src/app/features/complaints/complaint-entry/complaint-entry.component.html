@@ -1,98 +1,98 @@
 <div class="page-header">
-  <h1>Register New Complaint</h1>
+  <h1>नई शिकायत दर्ज करें</h1>
 </div>
 
 <form [formGroup]="form" (ngSubmit)="submit()" class="card">
-  <h2 class="section-title">Applicant Details</h2>
+  <h2 class="section-title">आवेदक का विवरण</h2>
   <div class="form-grid">
     <div class="form-field">
-      <label>Applicant Name *</label>
+      <label>आवेदक का नाम *</label>
       <input type="text" formControlName="applicantName" />
     </div>
     <div class="form-field">
-      <label>Father / Husband / Guardian Name *</label>
+      <label>पिता / पति / अभिभावक का नाम *</label>
       <input type="text" formControlName="guardianName" />
     </div>
     <div class="form-field">
-      <label>Mobile Number *</label>
-      <input type="text" maxlength="10" formControlName="mobileNumber" placeholder="10-digit mobile number" />
+      <label>मोबाइल नंबर *</label>
+      <input type="text" maxlength="10" formControlName="mobileNumber" placeholder="10 अंकों का मोबाइल नंबर" />
     </div>
     <div class="form-field">
-      <label>Email (optional)</label>
+      <label>ईमेल (वैकल्पिक)</label>
       <input type="email" formControlName="email" />
     </div>
     <div class="form-field full-width">
-      <label>Address *</label>
+      <label>पता *</label>
       <input type="text" formControlName="address" />
     </div>
     <div class="form-field">
-      <label>District *</label>
+      <label>जिला *</label>
       <input type="text" formControlName="district" />
     </div>
     <div class="form-field">
-      <label>Block / Prakhand *</label>
+      <label>प्रखंड / ब्लॉक *</label>
       <input type="text" formControlName="block" />
     </div>
     <div class="form-field">
-      <label>Police Station</label>
+      <label>थाना</label>
       <input type="text" formControlName="policeStation" />
     </div>
     <div class="form-field">
-      <label>Area / Locality</label>
+      <label>क्षेत्र / मोहल्ला</label>
       <input type="text" formControlName="area" />
     </div>
     <div class="form-field">
-      <label>Opposite Party (if any)</label>
+      <label>प्रतिपक्ष (यदि कोई हो)</label>
       <input type="text" formControlName="oppositeParty" />
     </div>
   </div>
 
-  <h2 class="section-title">Complaint Details</h2>
+  <h2 class="section-title">शिकायत का विवरण</h2>
   <div class="form-grid">
     <div class="form-field full-width">
-      <label>Subject *</label>
+      <label>विषय *</label>
       <input type="text" formControlName="subject" />
     </div>
     <div class="form-field">
-      <label>Category *</label>
-      <input type="text" formControlName="category" placeholder="e.g. Land Issue" />
+      <label>श्रेणी *</label>
+      <input type="text" formControlName="category" placeholder="जैसे भूमि विवाद" />
     </div>
     <div class="form-field">
-      <label>Sub-category</label>
+      <label>उप-श्रेणी</label>
       <input type="text" formControlName="subCategory" />
     </div>
     <div class="form-field full-width">
-      <label>Detailed Description *</label>
+      <label>विस्तृत विवरण *</label>
       <textarea rows="4" formControlName="description"></textarea>
     </div>
     <div class="form-field">
-      <label>Complaint Date *</label>
+      <label>शिकायत की तिथि *</label>
       <input type="date" formControlName="complaintDate" />
     </div>
     <div class="form-field">
-      <label>Source</label>
+      <label>स्रोत</label>
       <select formControlName="source">
-        <option *ngFor="let s of sources" [value]="s">{{ s }}</option>
+        <option *ngFor="let s of sources" [value]="s">{{ sourceLabel(s) }}</option>
       </select>
     </div>
     <div class="form-field">
-      <label>Branch / Section *</label>
+      <label>शाखा / अनुभाग *</label>
       <select formControlName="branchId">
-        <option [ngValue]="null" disabled>Select branch</option>
+        <option [ngValue]="null" disabled>शाखा चुनें</option>
         <option *ngFor="let b of branches" [ngValue]="b.id">{{ b.code }} — {{ b.name }}</option>
       </select>
     </div>
     <div class="form-field">
-      <label>Related Department</label>
+      <label>संबंधित विभाग</label>
       <select formControlName="departmentId">
-        <option [ngValue]="null">Not yet known</option>
+        <option [ngValue]="null">अभी ज्ञात नहीं</option>
         <option *ngFor="let d of departments" [ngValue]="d.id">{{ d.name }}</option>
       </select>
     </div>
     <div class="form-field full-width">
-      <label>Attach Complaint PDF (optional)</label>
+      <label>शिकायत की पीडीएफ संलग्न करें (वैकल्पिक)</label>
       <input type="file" accept="application/pdf" (change)="onFileSelected($event)" />
-      <span *ngIf="selectedFile" class="file-chosen">Selected: {{ selectedFile.name }}</span>
+      <span *ngIf="selectedFile" class="file-chosen">चयनित: {{ selectedFile.name }}</span>
     </div>
   </div>
 
@@ -100,7 +100,7 @@
 
   <div class="form-actions">
     <button type="submit" class="btn btn-primary" [disabled]="submitting">
-      {{ submitting ? 'Submitting…' : 'Register Complaint' }}
+      {{ submitting ? 'सबमिट हो रहा है…' : 'शिकायत दर्ज करें' }}
     </button>
   </div>
 </form>

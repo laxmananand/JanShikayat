@@ -90,9 +90,15 @@ a:hover {
   letter-spacing: -0.01em;
 }
 
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary:visited {
+  color: #fff;
+}
 .btn-primary {
   background: var(--color-primary);
-  color: #fff;
 }
 .btn-primary:hover {
   background: var(--color-primary-light);
@@ -100,19 +106,31 @@ a:hover {
   transform: translateY(-1px);
 }
 
+.btn-outline,
+.btn-outline:hover,
+.btn-outline:focus,
+.btn-outline:active,
+.btn-outline:visited {
+  color: var(--color-text);
+}
 .btn-outline {
   background: transparent;
   border-color: var(--color-border);
-  color: var(--color-text);
 }
 .btn-outline:hover {
   background: #f1f5f9;
   border-color: #cbd5e1;
 }
 
+.btn-danger,
+.btn-danger:hover,
+.btn-danger:focus,
+.btn-danger:active,
+.btn-danger:visited {
+  color: #fff;
+}
 .btn-danger {
   background: var(--color-danger);
-  color: #fff;
 }
 
 .btn:disabled {

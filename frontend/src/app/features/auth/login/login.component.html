@@ -2,20 +2,20 @@
   <div class="login-card card">
     <div class="login-header">
       <h1>जन शिकायत पोर्टल</h1>
-      <p>Public Grievance Management System &middot; Home Department, Bihar</p>
+      <p>लोक शिकायत प्रबंधन प्रणाली &middot; गृह विभाग, बिहार</p>
     </div>
 
     <form [formGroup]="form" (ngSubmit)="submit()">
       <div class="form-field">
-        <label for="email">Email</label>
+        <label for="email">ईमेल</label>
         <input id="email" type="email" formControlName="email" placeholder="you@janshikayat.gov.in" />
         <span class="error-text" *ngIf="form.get('email')?.touched && form.get('email')?.invalid">
-          Enter a valid email address.
+          कृपया मान्य ईमेल पता दर्ज करें।
         </span>
       </div>
 
       <div class="form-field">
-        <label for="password">Password</label>
+        <label for="password">पासवर्ड</label>
         <div class="password-wrapper">
           <input
             id="password"
@@ -27,7 +27,7 @@
             type="button"
             class="eye-btn"
             (click)="togglePassword()"
-            [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+            [attr.aria-label]="showPassword ? 'पासवर्ड छुपाएं' : 'पासवर्ड दिखाएं'"
           >
             <!-- Eye icon (show) -->
             <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -43,19 +43,19 @@
           </button>
         </div>
         <span class="error-text" *ngIf="form.get('password')?.touched && form.get('password')?.invalid">
-          Password is required.
+          पासवर्ड आवश्यक है।
         </span>
       </div>
 
       <p class="error-text" *ngIf="errorMessage">{{ errorMessage }}</p>
 
       <button type="submit" class="btn btn-primary login-btn" [disabled]="loading">
-        {{ loading ? 'Signing in…' : 'Log in' }}
+        {{ loading ? 'लॉग इन हो रहा है…' : 'लॉग इन करें' }}
       </button>
     </form>
 
     <div class="demo-accounts">
-      <p class="demo-title">Demo accounts (seeded on first run):</p>
+      <p class="demo-title">डेमो खाते (पहली बार चलाने पर बनाए गए):</p>
       <button
         type="button"
         class="demo-chip"

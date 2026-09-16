@@ -1,34 +1,34 @@
 <div class="page-header">
-  <h1>Complaints</h1>
+  <h1>शिकायतें</h1>
 </div>
 
 <div class="filters card">
   <div class="form-field">
-    <label>Status</label>
+    <label>स्थिति</label>
     <select [(ngModel)]="statusFilter" (change)="load()">
       <option *ngFor="let s of statuses" [value]="s.value">{{ s.label }}</option>
     </select>
   </div>
   <div class="form-field search-field">
-    <label>Search</label>
-    <input type="text" [(ngModel)]="searchTerm" placeholder="Complaint no., applicant, subject…" (keyup.enter)="load()" />
+    <label>खोजें</label>
+    <input type="text" [(ngModel)]="searchTerm" placeholder="शिकायत क्रमांक, आवेदक, विषय…" (keyup.enter)="load()" />
   </div>
-  <button class="btn btn-outline" (click)="load()">Search</button>
+  <button class="btn btn-outline" (click)="load()">खोजें</button>
 </div>
 
-<p *ngIf="loading">Loading complaints…</p>
+<p *ngIf="loading">शिकायतें लोड हो रही हैं…</p>
 
 <div class="card" *ngIf="!loading">
   <table class="data-table" *ngIf="complaints.length">
     <thead>
       <tr>
-        <th>Complaint No.</th>
-        <th>Applicant</th>
-        <th>Subject</th>
-        <th>Date</th>
-        <th>Branch</th>
-        <th>Department</th>
-        <th>Status</th>
+        <th>शिकायत क्रमांक</th>
+        <th>आवेदक</th>
+        <th>विषय</th>
+        <th>तिथि</th>
+        <th>शाखा</th>
+        <th>विभाग</th>
+        <th>स्थिति</th>
       </tr>
     </thead>
     <tbody>
@@ -39,10 +39,10 @@
         <td>{{ c.complaintDate | date: 'dd-MM-yyyy' }}</td>
         <td>{{ c.branchName }}</td>
         <td>{{ c.departmentName || '—' }}</td>
-        <td><span class="status-badge" [ngClass]="'status-' + c.status">{{ c.status }}</span></td>
+        <td><span class="status-badge" [ngClass]="'status-' + c.status">{{ statusLabel(c.status) }}</span></td>
       </tr>
     </tbody>
   </table>
 
-  <p *ngIf="!complaints.length" class="empty-state">No complaints found for the selected filters.</p>
+  <p *ngIf="!complaints.length" class="empty-state">चयनित फ़िल्टर के लिए कोई शिकायत नहीं मिली।</p>
 </div>

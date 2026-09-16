@@ -30,10 +30,10 @@ export class LoginComponent {
   }
 
   demoAccounts = [
-    { role: 'Super Admin', email: 'admin@janshikayat.gov.in', password: 'Admin@12345' },
-    { role: 'Branch Officer', email: 'branchofficer1@janshikayat.gov.in', password: 'Admin@12345' },
-    { role: 'Department Head', email: 'homedept.head@janshikayat.gov.in', password: 'AdminAdmin@12345' },
-    { role: 'Competent Authority (SDO)', email: 'sdo1@janshikayat.gov.in', password: 'Admin@12345' }
+    { role: 'सुपर एडमिन', email: 'admin@janshikayat.gov.in', password: 'Admin@12345' },
+    { role: 'शाखा अधिकारी', email: 'branchofficer1@janshikayat.gov.in', password: 'Admin@12345' },
+    { role: 'विभागाध्यक्ष', email: 'homedept.head@janshikayat.gov.in', password: 'Admin@12345' },
+    { role: 'सक्षम प्राधिकारी (एसडीओ)', email: 'sdo1@janshikayat.gov.in', password: 'Admin@12345' }
   ];
 
   fillDemo(email: string, password: string): void {
@@ -57,7 +57,7 @@ export class LoginComponent {
       },
       error: () => {
         this.loading = false;
-        this.errorMessage = 'Invalid email or password.';
+        this.errorMessage = 'ईमेल या पासवर्ड गलत है।';
       }
     });
   }

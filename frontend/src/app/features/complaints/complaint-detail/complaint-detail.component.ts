@@ -6,6 +6,7 @@ import { ComplaintService } from '../../../core/services/complaint.service';
 import { LookupService } from '../../../core/services/lookup.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { CompetentAuthorityDesignation, ComplaintDetail, Department } from '../../../core/models/models';
+import { statusLabel, sourceLabel, remarkTypeLabel } from '../../../core/utils/labels';
 
 @Component({
   selector: 'app-complaint-detail',
@@ -33,6 +34,10 @@ export class ComplaintDetailComponent implements OnInit {
   message = '';
   errorMessage = '';
   reportFile: File | null = null;
+
+  statusLabel = statusLabel;
+  sourceLabel = sourceLabel;
+  remarkTypeLabel = remarkTypeLabel;
 
   remarkForm = this.fb.group({
     remarkType: ['Enquiry', Validators.required],
@@ -70,7 +75,7 @@ export class ComplaintDetailComponent implements OnInit {
       },
       error: () => {
         this.loading = false;
-        this.errorMessage = 'Complaint not found or you do not have access to it.';
+        this.errorMessage = 'शिकायत नहीं मिली या आपके पास इसे देखने की अनुमति नहीं है।';
       }
     });
   }
@@ -100,7 +105,7 @@ export class ComplaintDetailComponent implements OnInit {
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
       if (file.type !== 'application/pdf') {
-        this.errorMessage = 'Only PDF files can be uploaded.';
+        this.errorMessage = 'केवल पीडीएफ फ़ाइलें ही अपलोड की जा सकती हैं।';
         return;
       }
       this.reportFile = file;
@@ -114,7 +119,7 @@ export class ComplaintDetailComponent implements OnInit {
         const url = window.URL.createObjectURL(blob);
         window.open(url, '_blank');
       },
-      error: () => (this.errorMessage = 'Failed to open document.')
+      error: () => (this.errorMessage = 'दस्तावेज़ खोलने में विफल।')
     });
   }
 
@@ -125,12 +130,12 @@ export class ComplaintDetailComponent implements OnInit {
       next: () => {
         this.busy = false;
         this.reportFile = null;
-        this.message = 'Report uploaded successfully.';
+        this.message = 'रिपोर्ट सफलतापूर्वक अपलोड की गई।';
         this.load();
       },
       error: () => {
         this.busy = false;
-        this.errorMessage = 'Failed to upload report.';
+        this.errorMessage = 'रिपोर्ट अपलोड करने में विफल।';
       }
     });
   }
@@ -146,12 +151,12 @@ export class ComplaintDetailComponent implements OnInit {
       next: () => {
         this.busy = false;
         this.remarkForm.reset({ remarkType: 'Enquiry', text: '' });
-        this.message = 'Remark added.';
+        this.message = 'टिप्पणी जोड़ी गई।';
         this.load();
       },
       error: () => {
         this.busy = false;
-        this.errorMessage = 'Failed to add remark.';
+        this.errorMessage = 'टिप्पणी जोड़ने में विफल।';
       }
     });
   }
@@ -164,11 +169,11 @@ export class ComplaintDetailComponent implements OnInit {
     const { targetType, departmentId, competentAuthorityDesignationId, reason } = this.forwardForm.value;
 
     if (targetType === 'department' && !departmentId) {
-      this.errorMessage = 'Select a department to forward to.';
+      this.errorMessage = 'अग्रेषित करने हेतु विभाग चुनें।';
       return;
     }
     if (targetType === 'authority' && !competentAuthorityDesignationId) {
-      this.errorMessage = 'Select a competent authority to forward to.';
+      this.errorMessage = 'अग्रेषित करने हेतु सक्षम प्राधिकारी चुनें।';
       return;
     }
 
@@ -183,12 +188,12 @@ export class ComplaintDetailComponent implements OnInit {
         next: () => {
           this.busy = false;
           this.forwardForm.reset({ targetType: 'department', reason: '' });
-          this.message = 'Complaint forwarded.';
+          this.message = 'शिकायत अग्रेषित की गई।';
           this.load();
         },
         error: () => {
           this.busy = false;
-          this.errorMessage = 'Failed to forward complaint.';
+          this.errorMessage = 'शिकायत अग्रेषित करने में विफल।';
         }
       });
   }
@@ -203,12 +208,12 @@ export class ComplaintDetailComponent implements OnInit {
       next: () => {
         this.busy = false;
         this.actionForm.reset();
-        this.message = 'Action recorded.';
+        this.message = 'कार्रवाई दर्ज की गई।';
         this.load();
       },
       error: () => {
         this.busy = false;
-        this.errorMessage = 'Failed to record action.';
+        this.errorMessage = 'कार्रवाई दर्ज करने में विफल।';
       }
     });
   }
@@ -222,12 +227,12 @@ export class ComplaintDetailComponent implements OnInit {
     this.complaintService.close(this.complaintId, this.closeForm.value.closureRemarks!).subscribe({
       next: () => {
         this.busy = false;
-        this.message = 'Case closed.';
+        this.message = 'प्रकरण बंद कर दिया गया।';
         this.load();
       },
       error: () => {
         this.busy = false;
-        this.errorMessage = 'Failed to close case.';
+        this.errorMessage = 'प्रकरण बंद करने में विफल।';
       }
     });
   }

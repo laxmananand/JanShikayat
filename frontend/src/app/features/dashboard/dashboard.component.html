@@ -1,10 +1,10 @@
 <div class="page-header">
-  <h1>Dashboard</h1>
+  <h1>डैशबोर्ड</h1>
   <a *ngIf="canRegisterComplaint" routerLink="/complaints/new" class="btn btn-primary">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
       <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
     </svg>
-    Register Complaint
+    शिकायत दर्ज करें
   </a>
 </div>
 
@@ -27,7 +27,7 @@
     </div>
     <div class="card-data">
       <span class="summary-value">{{ summary.totalComplaints }}</span>
-      <span class="summary-label">Total Complaints</span>
+      <span class="summary-label">कुल शिकायतें</span>
     </div>
     <span class="card-arrow">→</span>
   </div>
@@ -40,7 +40,7 @@
     </div>
     <div class="card-data">
       <span class="summary-value">{{ summary.pending }}</span>
-      <span class="summary-label">Pending</span>
+      <span class="summary-label">लंबित</span>
     </div>
     <span class="card-arrow">→</span>
   </div>
@@ -53,7 +53,7 @@
     </div>
     <div class="card-data">
       <span class="summary-value">{{ summary.underReview }}</span>
-      <span class="summary-label">Under Review</span>
+      <span class="summary-label">समीक्षाधीन</span>
     </div>
     <span class="card-arrow">→</span>
   </div>
@@ -66,7 +66,7 @@
     </div>
     <div class="card-data">
       <span class="summary-value">{{ summary.forwarded }}</span>
-      <span class="summary-label">Forwarded to Dept.</span>
+      <span class="summary-label">विभाग को अग्रेषित</span>
     </div>
     <span class="card-arrow">→</span>
   </div>
@@ -79,7 +79,7 @@
     </div>
     <div class="card-data">
       <span class="summary-value">{{ summary.underFieldEnquiry }}</span>
-      <span class="summary-label">Under Field Enquiry</span>
+      <span class="summary-label">क्षेत्रीय जांच में</span>
     </div>
     <span class="card-arrow">→</span>
   </div>
@@ -93,7 +93,7 @@
     </div>
     <div class="card-data">
       <span class="summary-value">{{ summary.disposed }}</span>
-      <span class="summary-label">Disposed</span>
+      <span class="summary-label">निष्पादित</span>
     </div>
     <span class="card-arrow">→</span>
   </div>

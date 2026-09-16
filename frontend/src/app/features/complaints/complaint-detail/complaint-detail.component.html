@@ -1,10 +1,10 @@
-<p *ngIf="loading">Loading complaint…</p>
+<p *ngIf="loading">शिकायत लोड हो रही है…</p>
 <p class="error-text" *ngIf="errorMessage && !complaint">{{ errorMessage }}</p>
 
 <ng-container *ngIf="complaint">
   <div class="page-header">
     <h1>{{ complaint.complaintNumber }} — {{ complaint.subject }}</h1>
-    <span class="status-badge" [ngClass]="'status-' + complaint.status">{{ complaint.status }}</span>
+    <span class="status-badge" [ngClass]="'status-' + complaint.status">{{ statusLabel(complaint.status) }}</span>
   </div>
 
   <p class="banner success" *ngIf="message">{{ message }}</p>
@@ -13,149 +13,149 @@
   <div class="detail-grid">
     <!-- Summary -->
     <div class="card">
-      <h2 class="section-title">विकायत का सारांश / Complaint Summary</h2>
+      <h2 class="section-title">शिकायत का सारांश</h2>
       <dl class="kv-list">
-        <div><dt>Applicant</dt><dd>{{ complaint.applicantName }}</dd></div>
-        <div><dt>Guardian</dt><dd>{{ complaint.guardianName }}</dd></div>
-        <div><dt>Mobile</dt><dd>{{ complaint.mobileNumber }}</dd></div>
-        <div><dt>Address</dt><dd>{{ complaint.address }}</dd></div>
-        <div><dt>District</dt><dd>{{ complaint.district }}</dd></div>
-        <div><dt>Block</dt><dd>{{ complaint.block }}</dd></div>
-        <div><dt>Police Station</dt><dd>{{ complaint.policeStation || '—' }}</dd></div>
-        <div><dt>Opposite Party</dt><dd>{{ complaint.oppositeParty || '—' }}</dd></div>
-        <div><dt>Category</dt><dd>{{ complaint.category }}<span *ngIf="complaint.subCategory"> / {{ complaint.subCategory }}</span></dd></div>
-        <div><dt>Source</dt><dd>{{ complaint.source }}</dd></div>
-        <div><dt>Branch</dt><dd>{{ complaint.branchName }}</dd></div>
-        <div><dt>Department</dt><dd>{{ complaint.departmentName || '—' }}</dd></div>
+        <div><dt>आवेदक</dt><dd>{{ complaint.applicantName }}</dd></div>
+        <div><dt>अभिभावक</dt><dd>{{ complaint.guardianName }}</dd></div>
+        <div><dt>मोबाइल</dt><dd>{{ complaint.mobileNumber }}</dd></div>
+        <div><dt>पता</dt><dd>{{ complaint.address }}</dd></div>
+        <div><dt>जिला</dt><dd>{{ complaint.district }}</dd></div>
+        <div><dt>प्रखंड</dt><dd>{{ complaint.block }}</dd></div>
+        <div><dt>थाना</dt><dd>{{ complaint.policeStation || '—' }}</dd></div>
+        <div><dt>प्रतिपक्ष</dt><dd>{{ complaint.oppositeParty || '—' }}</dd></div>
+        <div><dt>श्रेणी</dt><dd>{{ complaint.category }}<span *ngIf="complaint.subCategory"> / {{ complaint.subCategory }}</span></dd></div>
+        <div><dt>स्रोत</dt><dd>{{ sourceLabel(complaint.source) }}</dd></div>
+        <div><dt>शाखा</dt><dd>{{ complaint.branchName }}</dd></div>
+        <div><dt>विभाग</dt><dd>{{ complaint.departmentName || '—' }}</dd></div>
       </dl>
       <div class="description-block">
-        <dt>Description</dt>
+        <dt>विवरण</dt>
         <p>{{ complaint.description }}</p>
       </div>
     </div>
 
     <!-- Documents -->
     <div class="card">
-      <h2 class="section-title">Documents</h2>
+      <h2 class="section-title">दस्तावेज़</h2>
       <ul class="doc-list" *ngIf="complaint.documents.length">
         <li *ngFor="let d of complaint.documents">
           <span class="doc-name">{{ d.fileName }}</span>
           <span class="doc-type">{{ d.documentType }}</span>
-          <button class="btn btn-outline btn-sm" (click)="viewDocument(d.id)">View PDF</button>
+          <button class="btn btn-outline btn-sm" (click)="viewDocument(d.id)">पीडीएफ देखें</button>
         </li>
       </ul>
-      <p *ngIf="!complaint.documents.length" class="muted">No documents attached yet.</p>
+      <p *ngIf="!complaint.documents.length" class="muted">अभी तक कोई दस्तावेज़ संलग्न नहीं है।</p>
 
       <div class="upload-row" *ngIf="canAddRemarkOrForward && !isClosed">
         <label class="form-field">
-          <span>Upload signed enquiry / field verification report (PDF)</span>
+          <span>हस्ताक्षरित जांच / क्षेत्रीय सत्यापन रिपोर्ट अपलोड करें (पीडीएफ)</span>
           <input type="file" accept="application/pdf" (change)="onReportFileSelected($event)" />
         </label>
-        <button class="btn btn-outline" [disabled]="!reportFile || busy" (click)="uploadReport()">Upload Report</button>
+        <button class="btn btn-outline" [disabled]="!reportFile || busy" (click)="uploadReport()">रिपोर्ट अपलोड करें</button>
       </div>
     </div>
   </div>
 
   <!-- Remarks -->
   <div class="card">
-    <h2 class="section-title">Enquiry &amp; Official Remarks</h2>
+    <h2 class="section-title">जांच एवं कार्यालयी टिप्पणियां</h2>
     <ul class="remark-list" *ngIf="complaint.remarks.length">
       <li *ngFor="let r of complaint.remarks">
         <div class="remark-meta">
-          <span class="remark-type">{{ r.remarkType }}</span>
+          <span class="remark-type">{{ remarkTypeLabel(r.remarkType) }}</span>
           <span class="remark-author">{{ r.createdByName }}</span>
           <span class="remark-date">{{ r.createdAt | date: 'dd-MM-yyyy HH:mm' }}</span>
         </div>
         <p class="remark-text">{{ r.text }}</p>
       </li>
     </ul>
-    <p *ngIf="!complaint.remarks.length" class="muted">No remarks yet.</p>
+    <p *ngIf="!complaint.remarks.length" class="muted">अभी तक कोई टिप्पणी नहीं है।</p>
 
     <form *ngIf="canAddRemarkOrForward && !isClosed" [formGroup]="remarkForm" (ngSubmit)="submitRemark()" class="inline-form">
       <div class="form-field">
-        <label>Remark type</label>
+        <label>टिप्पणी का प्रकार</label>
         <select formControlName="remarkType">
-          <option value="Enquiry">Enquiry remark</option>
-          <option value="Official">Official / action remark</option>
+          <option value="Enquiry">जांच टिप्पणी</option>
+          <option value="Official">कार्यालयी / कार्रवाई टिप्पणी</option>
         </select>
       </div>
       <div class="form-field">
-        <label>Remark (up to 500 words)</label>
+        <label>टिप्पणी (अधिकतम 500 शब्द)</label>
         <textarea rows="3" formControlName="text"></textarea>
       </div>
-      <button type="submit" class="btn btn-primary" [disabled]="busy">Add Remark</button>
+      <button type="submit" class="btn btn-accent" [disabled]="busy">टिप्पणी जोड़ें</button>
     </form>
   </div>
 
   <!-- Forward -->
   <div class="card" *ngIf="canForward && !isClosed">
-    <h2 class="section-title">Forward / Escalate</h2>
+    <h2 class="section-title">अग्रेषित करें / एस्केलेट करें</h2>
     <form [formGroup]="forwardForm" (ngSubmit)="submitForward()" class="inline-form">
       <div class="form-field">
-        <label>Forward to</label>
+        <label>किसे अग्रेषित करें</label>
         <select formControlName="targetType">
-          <option value="department">Another Department</option>
-          <option value="authority">Competent Authority (field enquiry)</option>
+          <option value="department">अन्य विभाग</option>
+          <option value="authority">सक्षम प्राधिकारी (क्षेत्रीय जांच)</option>
         </select>
       </div>
       <div class="form-field" *ngIf="forwardForm.value.targetType === 'department'">
-        <label>Department</label>
+        <label>विभाग</label>
         <select formControlName="departmentId">
-          <option [ngValue]="null" disabled>Select department</option>
+          <option [ngValue]="null" disabled>विभाग चुनें</option>
           <option *ngFor="let d of departments" [ngValue]="d.id">{{ d.name }}</option>
         </select>
       </div>
       <div class="form-field" *ngIf="forwardForm.value.targetType === 'authority'">
-        <label>Competent Authority</label>
+        <label>सक्षम प्राधिकारी</label>
         <select formControlName="competentAuthorityDesignationId">
-          <option [ngValue]="null" disabled>Select authority</option>
+          <option [ngValue]="null" disabled>प्राधिकारी चुनें</option>
           <option *ngFor="let a of authorities" [ngValue]="a.id">{{ a.title }}</option>
         </select>
       </div>
       <div class="form-field">
-        <label>Reason for forwarding</label>
+        <label>अग्रेषित करने का कारण</label>
         <textarea rows="2" formControlName="reason"></textarea>
       </div>
-      <button type="submit" class="btn btn-primary" [disabled]="busy">Forward</button>
+      <button type="submit" class="btn btn-primary" [disabled]="busy">अग्रेषित करें</button>
     </form>
   </div>
 
   <!-- Action Taken -->
   <div class="card" *ngIf="canMarkActionTaken && !isClosed">
-    <h2 class="section-title">Record Action Taken</h2>
+    <h2 class="section-title">की गई कार्रवाई दर्ज करें</h2>
     <form [formGroup]="actionForm" (ngSubmit)="submitActionTaken()" class="inline-form">
       <div class="form-field">
-        <label>Action taken remarks</label>
+        <label>कार्रवाई संबंधी टिप्पणी</label>
         <textarea rows="3" formControlName="text"></textarea>
       </div>
-      <button type="submit" class="btn btn-outline" [disabled]="busy">Mark Action Taken</button>
+      <button type="submit" class="btn btn-outline" [disabled]="busy">कार्रवाई की गई अंकित करें</button>
     </form>
   </div>
 
   <!-- Close -->
   <div class="card" *ngIf="canClose && !isClosed">
-    <h2 class="section-title">Close Case</h2>
+    <h2 class="section-title">प्रकरण बंद करें</h2>
     <form [formGroup]="closeForm" (ngSubmit)="submitClose()" class="inline-form">
       <div class="form-field">
-        <label>Final action / closure remarks</label>
+        <label>अंतिम कार्रवाई / समापन टिप्पणी</label>
         <textarea rows="3" formControlName="closureRemarks"></textarea>
       </div>
-      <button type="submit" class="btn btn-danger" [disabled]="busy">Close Case</button>
+      <button type="submit" class="btn btn-danger" [disabled]="busy">प्रकरण बंद करें</button>
     </form>
   </div>
 
   <div class="card" *ngIf="isClosed">
-    <h2 class="section-title">Case Closed</h2>
-    <p><strong>Closed on:</strong> {{ complaint.closedAt | date: 'dd-MM-yyyy HH:mm' }}</p>
-    <p><strong>Closure remarks:</strong> {{ complaint.closureRemarks }}</p>
+    <h2 class="section-title">प्रकरण बंद हो गया</h2>
+    <p><strong>बंद होने की तिथि:</strong> {{ complaint.closedAt | date: 'dd-MM-yyyy HH:mm' }}</p>
+    <p><strong>समापन टिप्पणी:</strong> {{ complaint.closureRemarks }}</p>
   </div>
 
   <!-- History -->
   <div class="card">
-    <h2 class="section-title">Processing History</h2>
+    <h2 class="section-title">प्रक्रिया इतिहास</h2>
     <ol class="history-list" *ngIf="complaint.history.length">
       <li *ngFor="let h of complaint.history">
-        <span class="history-status">{{ h.fromStatus }} → {{ h.toStatus }}</span>
+        <span class="history-status">{{ statusLabel(h.fromStatus) }} → {{ statusLabel(h.toStatus) }}</span>
         <span class="history-meta">{{ h.actionByName }} &middot; {{ h.actionAt | date: 'dd-MM-yyyy HH:mm' }}</span>
         <p *ngIf="h.reason" class="history-reason">{{ h.reason }}</p>
       </li>

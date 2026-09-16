@@ -25,10 +25,10 @@ export class UserManagementComponent implements OnInit {
   errorMessage = '';
 
   roles = [
-    { value: 'BranchOfficer', label: 'Branch Officer (registers complaints)' },
-    { value: 'DepartmentHead', label: 'Department Head (reviews & forwards)' },
-    { value: 'CompetentAuthority', label: 'Competent Authority (field enquiry)' },
-    { value: 'SuperAdmin', label: 'Super Admin' }
+    { value: 'BranchOfficer', label: 'शाखा अधिकारी (शिकायत दर्ज करता है)' },
+    { value: 'DepartmentHead', label: 'विभागाध्यक्ष (समीक्षा व अग्रेषण करता है)' },
+    { value: 'CompetentAuthority', label: 'सक्षम प्राधिकारी (क्षेत्रीय जांच)' },
+    { value: 'SuperAdmin', label: 'सुपर एडमिन' }
   ];
 
   form = this.fb.group({
@@ -58,12 +58,12 @@ export class UserManagementComponent implements OnInit {
     this.http.post(`${environment.apiUrl}/auth/register`, this.form.value).subscribe({
       next: () => {
         this.submitting = false;
-        this.message = `Account created for ${this.form.value.email}.`;
+        this.message = `${this.form.value.email} के लिए खाता बनाया गया।`;
         this.form.reset({ role: 'BranchOfficer' });
       },
       error: (err) => {
         this.submitting = false;
-        this.errorMessage = err.error?.errors?.join(', ') || err.error?.message || 'Could not create account.';
+        this.errorMessage = err.error?.errors?.join(', ') || err.error?.message || 'खाता नहीं बनाया जा सका।';
       }
     });
   }
